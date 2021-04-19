@@ -1,0 +1,9 @@
+numpy==1.19.5
+opencv-contrib-python==4.5.1.48
+opencv-python==4.5.1.48
+torch==1.8.1
+torchvision==0.9.1
+matplotlib==3.3.4
+nibabel==3.2.1
+tqdm==4.60.0
+imutils==0.5.4
