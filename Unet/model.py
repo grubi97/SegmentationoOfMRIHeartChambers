@@ -13,11 +13,11 @@ class DoubleConv(nn.Module):
             # bias=false
             # batchnomr-normalizacija
             # relu aktivacijska funk
-            nn.Conv2d(in_channels, out_channels, 3, 1, 1),
+            nn.Conv2d(in_channels, out_channels, 3, 1, 1, bias=False),
             nn.BatchNorm2d(out_channels),
             nn.ReLU(inplace=True),
 
-            nn.Conv2d(out_channels, out_channels, 3, 1, 1),
+            nn.Conv2d(out_channels, out_channels, 3, 1, 1, bias=False),
             nn.BatchNorm2d(out_channels),
             ##inplace means that it will modify the input directly, without allocating any additional output
             nn.ReLU(inplace=True),
