@@ -8,10 +8,6 @@ from Preprocessing.preprocessing import Preprocessor
 import argparse
 
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-BATCH_SIZE = 15
-NUM_EPOCHS = 15
-NUM_WORKERS = 0
-
 
 ap = argparse.ArgumentParser()
 ap.add_argument("-vi", "--val_images", required=True, help="path to images directory")

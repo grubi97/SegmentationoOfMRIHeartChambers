@@ -60,11 +60,11 @@ class MRIDataset(Dataset):
 
         image = self.images[idx]
         mask = self.masks[idx]
-        #
+
         # Flip image for data augmentation
-        # if random.random() > 0.5:
-        #     image = torch.flip(image, [0])
-        #     mask = torch.flip(mask, [0])
+        if random.random() > 0.5:
+            image = torch.flip(image, [0])
+            mask = torch.flip(mask, [0])
 
         return image.float(), mask.float()
 

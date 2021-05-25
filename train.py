@@ -36,8 +36,8 @@ def train_fn(loader, model, optimizer, loss_fn, scaler):
 # Hyperparam etc.
 LEARNING_RATE = 1e-4
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-BATCH_SIZE = 15
-NUM_EPOCHS =20
+BATCH_SIZE = 8
+NUM_EPOCHS = 100
 LOAD_MODEL = False
 NUM_WORKERS = 0
 

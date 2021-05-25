@@ -12,7 +12,7 @@ class BayesPreprocessor:
         # self.height = height
         # self.kernel = kernel
         # self.inter = inter
-
+    @staticmethod
     def bayes_noise_removal(self,o):
 
         # implement image processing
