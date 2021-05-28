@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+resultsxy/*
+resultsz/*
+wandb/*
+mri/*
+Dataset/xydim/*
+Dataset/zdim/*

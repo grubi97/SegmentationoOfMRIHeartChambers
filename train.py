@@ -9,10 +9,26 @@ from Utils import utils
 from torch.utils.data import DataLoader
 from Preprocessing.preprocessing import Preprocessor
 import argparse
+import wandb
+
+
+# Hyperparam etc.
+LEARNING_RATE = 1e-3
+DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+BATCH_SIZE = 8
+NUM_EPOCHS = 100
+LOAD_MODEL = False
+NUM_WORKERS = 0
+
+
+wandb.init(project='Unet', entity='grubi')
+config = wandb.config
+config.learning_rate = LEARNING_RATE
 
 
 def train_fn(loader, model, optimizer, loss_fn, scaler):
     loop = tqdm(loader)
+
 
     for batch_idx, (data, targets) in enumerate(loop):
         data = data.to(DEVICE)
@@ -23,6 +39,7 @@ def train_fn(loader, model, optimizer, loss_fn, scaler):
             predictions = model(data)
             loss = loss_fn(predictions, targets)
 
+
         # backward
         optimizer.zero_grad()
         scaler.scale(loss).backward()
@@ -31,15 +48,10 @@ def train_fn(loader, model, optimizer, loss_fn, scaler):
 
         # update tqdm loop
         loop.set_postfix(loss=loss.item())
+        wandb.log({"loss": loss})
 
 
-# Hyperparam etc.
-LEARNING_RATE = 1e-4
-DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-BATCH_SIZE = 8
-NUM_EPOCHS = 100
-LOAD_MODEL = False
-NUM_WORKERS = 0
+
 
 ap = argparse.ArgumentParser()
 ap.add_argument("-i", "--images", required=True, help="path to images directory")
@@ -54,22 +66,25 @@ labelPath = list(paths.list_images(args["labels"]))
 val_imagePath = list(paths.list_images(args["val_images"]))
 val_labelPath = list(paths.list_images(args["val_labels"]))
 
-prep = Preprocessor(128, 512)
-dl = DataLoader(MRIDataset(imgpath=imagePath, labelpath=labelPath, preprocessors=[prep], verbose=5),
+prep = Preprocessor(128, 256)
+dl = DataLoader(MRIDataset(imgpath=imagePath, labelpath=labelPath, preprocessors=[prep], verbose=200),
                 batch_size=BATCH_SIZE, shuffle=True, num_workers=NUM_WORKERS)
-dl_val = DataLoader(MRIDataset(imgpath=val_imagePath, labelpath=val_labelPath, preprocessors=[prep], verbose=5),
+dl_val = DataLoader(MRIDataset(imgpath=val_imagePath, labelpath=val_labelPath, preprocessors=[prep], verbose=200),
                     batch_size=BATCH_SIZE, shuffle=False, num_workers=NUM_WORKERS)
 
 model = UNET(in_channels=1, out_channels=1).to(DEVICE).float()
 loss_fnc = nn.BCEWithLogitsLoss()
-optimizer = optim.Adam(model.parameters(), lr=LEARNING_RATE)
+optimizer = optim.RMSprop(model.parameters(), lr=LEARNING_RATE)
 
 if LOAD_MODEL:
     utils.load_checkpoint(torch.load('tmp/checkpoint.pth.tar'), model)
 
 scaler = torch.cuda.amp.GradScaler()
 
+wandb.watch(model)
 for epoch in range(NUM_EPOCHS):
+    print(epoch+1)
+
     train_fn(dl, model, optimizer, loss_fnc, scaler)
 
     checkpoint = {
@@ -77,6 +92,6 @@ for epoch in range(NUM_EPOCHS):
         'optimizer': optimizer.state_dict()
     }
 
-    utils.save_checkpoint(checkpoint)
+    utils.save_checkpoint(checkpoint,filename='tmp/checkpoint.pth.tar')
     utils.check_accuracy(dl_val, model, DEVICE)
     utils.save_predictions_as_imgs(dl_val, model, DEVICE)
