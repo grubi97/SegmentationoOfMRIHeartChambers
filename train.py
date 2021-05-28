@@ -9,7 +9,7 @@ from Utils import utils
 from torch.utils.data import DataLoader
 from Preprocessing.preprocessing import Preprocessor
 import argparse
-import wandb
+# import wandb
 
 
 # Hyperparam etc.
@@ -21,9 +21,9 @@ LOAD_MODEL = False
 NUM_WORKERS = 0
 
 
-wandb.init(project='Unet', entity='grubi')
-config = wandb.config
-config.learning_rate = LEARNING_RATE
+# wandb.init(project='Unet', entity='grubi')
+# config = wandb.config
+# config.learning_rate = LEARNING_RATE
 
 
 def train_fn(loader, model, optimizer, loss_fn, scaler):
@@ -81,7 +81,7 @@ if LOAD_MODEL:
 
 scaler = torch.cuda.amp.GradScaler()
 
-wandb.watch(model)
+# wandb.watch(model)
 for epoch in range(NUM_EPOCHS):
     print(epoch+1)
 

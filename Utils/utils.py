@@ -1,7 +1,6 @@
 import torch
 import torchvision
 import os
-import wandb
 
 
 def save_checkpoint(state, filename='tmp/checkpoint.pth.tar'):
@@ -32,8 +31,8 @@ def check_accuracy(loader, model, device):
             dice_score += (2 * (preds * y).sum()) / ((preds + y).sum() + 1e-9)
             print('Got {}/{} with acc {:2f}'.format(num_correct, num_pixels, num_correct / num_pixels * 100))
             print('Dice score {}'.format(dice_score / len(loader)))
-            wandb.log({"dice": dice_score})
-            wandb.log({"acc": (num_correct, num_pixels, num_correct / num_pixels * 100)})
+            # wandb.log({"dice": dice_score})
+            # wandb.log({"acc": (num_correct, num_pixels, num_correct / num_pixels * 100)})
 
             model.train()
 
