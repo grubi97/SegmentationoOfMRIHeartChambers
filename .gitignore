@@ -130,6 +130,6 @@ dmypy.json
 resultsxy/*
 resultsz/*
 wandb/*
-mri/*
+mri/
 Dataset/xydim/*
 Dataset/zdim/*
