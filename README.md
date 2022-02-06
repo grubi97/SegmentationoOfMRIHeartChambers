@@ -47,15 +47,6 @@ python test.py --val_images Dataset/val_img --val_labels Dataset/val_label
 ```
 
 
-## Current Results ##
+## Thesis ##
 
-+ From the dataset
-
-![Screenshot](Dataset/val_img/mr_train_1017_image0.png)
-![Screenshot](Dataset/val_img/mr_train_1002_image0.png)
-
-
-
-+ After segmentation
-
-![Screenshot](tmp/pred_0.png)
++ For all information about the dataset and the nature of this work check out the thesis on this repository: Segmentation of heart chambers from 2D MRI images using the U-NET convolutional neural network
