@@ -1,4 +1,4 @@
-# MRI-Segmentation #
+# Segmentation of heart chambers from 2D MRI images using the U-NET convolutional neural network #
 
 This project was created to train and MRI heart images on UNET.
 
