@@ -49,4 +49,5 @@ python test.py --val_images Dataset/val_img --val_labels Dataset/val_label
 
 ## Thesis ##
 
-+ For all information about the dataset and the nature of this work check out the thesis on this repository: Segmentation of heart chambers from 2D MRI images using the U-NET convolutional neural network
++ For all information about the dataset and the nature of this work(as well the end results) check out the thesis on this repository: Segmentation of heart chambers from 2D MRI images using the U-NET convolutional neural network
+
